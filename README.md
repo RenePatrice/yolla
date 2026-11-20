@@ -8,9 +8,9 @@ Site statique : aucune installation, aucune commande de build.
 
 ## Structure
 - `index.html` : le site complet (textes FR/EN, styles, scripts).
-- `docs/full/` : attestations et certificats en grand format (affichés dans la visionneuse).
+- `docs/full/` : attestations et certificats en grand format, tous réunis dans l'onglet Certificats (affichés dans la visionneuse).
 - `docs/thumb/` : vignettes des mêmes documents.
 - `docs/pdf/` : article IDEAL complet.
 - `img/` : photos de la galerie.
 
-Pour ajouter un document ou une photo, envoyez-le à Claude : il l'intègre et le lie au bon projet.
+Pour ajouter un document ou une photo, envoyez-le à Claude : il l'intègre dans la bonne rubrique de l'onglet Certificats.

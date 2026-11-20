@@ -78,8 +78,8 @@ main:focus{outline:none}
 .burger[aria-expanded="true"] span:nth-child(1){transform:translateY(5.3px) rotate(45deg)}
 .burger[aria-expanded="true"] span:nth-child(2){opacity:0}
 .burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-5.3px) rotate(-45deg)}
-@media (max-width:1060px){.hdr-cta{display:none!important}}
-@media (max-width:900px){
+@media (max-width:1240px){.hdr-cta{display:none!important}}
+@media (max-width:1060px){
   .burger{display:block}
   .nav{position:fixed;inset:var(--hdr) 0 auto 0;flex-direction:column;gap:0;background:var(--bg);padding:.8rem var(--gut) 1.6rem;border-bottom:1px solid var(--line);clip-path:inset(0 0 100% 0);transition:clip-path .45s var(--ease)}
   .nav.open{clip-path:inset(0 0 0 0)}
@@ -684,7 +684,7 @@ html.lb-open{overflow:hidden}
 <footer class="ftr" id="footer"></footer>
 <script>/* ================= I18N ================= */
 const UI = {
-  nav_home:["Accueil","Home"], nav_about:["À propos","About"], nav_exp:["Expertise","Expertise"], nav_proj:["Projets","Projects"], nav_pubs:["Publications","Publications"], nav_contact:["Contact","Contact"],
+  nav_home:["Accueil","Home"], nav_about:["À propos","About"], nav_exp:["Expertise","Expertise"], nav_proj:["Projets","Projects"], nav_pubs:["Publications","Publications"], nav_cert:["Certificats","Certificates"], nav_contact:["Contact","Contact"],
   skip:["Aller au contenu","Skip to content"], menu_open:["Ouvrir le menu","Open menu"], menu_close:["Fermer le menu","Close menu"],
   theme:["Changer de thème","Toggle theme"], lang:["Langue","Language"],
   cta_contact:["Me contacter","Get in touch"], cta_projects:["Voir mes projets","View my projects"], all_projects:["Voir les 9 projets","See all 9 projects"],
@@ -754,6 +754,9 @@ const UI = {
   track_cut:["Piste coupée en saison des pluies","Track cut in the rainy season"], dig:["Fouille","Excavation"], length:["Longueur 5,50 m","Length 5.50 m"], m255:["2,55 m","2.55 m"], m260:["2,60 m","2.60 m"],
   km:["km entre Guéckédou et Bhubaneswar","km between Guéckédou and Bhubaneswar"],
   docs_t:["Attestations et certificats","Certificates and attestations"], docs_own:["Attestations du projet","Project attestations"], docs_skills:["Formations mobilisées","Training applied"],
+  certp_h:["Certificats et attestations","Certificates and attestations"], certp_l:["Tous les documents justificatifs réunis au même endroit : formations, stages, missions, conférences et engagement. Cliquez sur une carte pour voir le document.","Every supporting document in one place: training, internships, missions, conferences and civic work. Click a card to view the document."],
+  intern_t:["Stages et attestations professionnelles","Internships and work attestations"], intern_l:["Attestations délivrées par les structures d'accueil.","Attestations issued by host organisations."],
+  pubd_t:["Publication","Publication"], pubd_l:["Certificat de publication de l'article scientifique.","Publication certificate for the research paper."],
   docs_missing:["Document à fournir","Document to be added"], docs_missing_p:["Ce justificatif n'a pas encore été transmis.","This supporting document has not been provided yet."],
   docs_n:["documents","documents"], doc_n1:["document","document"], view:["Voir","View"], open_orig:["Ouvrir en grand","Open full size"], read_pdf:["Lire l'article (PDF)","Read the paper (PDF)"],
   view_cert:["Voir le certificat","View certificate"], close:["Fermer","Close"], prevd:["Document précédent","Previous document"], nextd:["Document suivant","Next document"],
@@ -935,9 +938,7 @@ const PARTNERS = ["ANAFIC","UNICEF","CYSD","Unmukt Foundation","KIIT University"
 </script>
 <script>/* ================= DOCUMENTS (attestations, certificats, publications) =================
    Pour ajouter un document : déposer l'image dans docs/full/ et docs/thumb/ (même nom .webp),
-   puis ajouter une entrée ci-dessous et référencer son id dans un projet (PROJECT_DOCS). */
-/* Mettre à false avant la mise en ligne publique pour masquer les « documents à fournir ». */
-const SHOW_MISSING = true;
+   puis ajouter une entrée ci-dessous et son id dans une liste de la page Certificats (CERT_PAGE). */
 const DOC_DIMS = {"cysd-internship": [1700, 1251], "odisha-vikash-2025": [1181, 1700], "unmukt-mts1": [1700, 1203], "wtc-export": [1700, 1223], "meal-sera": [1700, 1202], "kobo": [1700, 1202], "oif-dclic": [1700, 1262], "be10x": [1700, 1134], "bc-teaching": [1186, 1700], "bc-webinar": [1184, 1700], "unv-linkedin": [1700, 1165], "unv-ucampus": [1700, 1180], "kiit-english": [1700, 1246], "gnsu-fdp": [1106, 748], "movers": [1700, 1203], "unv-y4c": [1700, 1135], "unv-malawi": [1700, 1111], "unv-ethiopia": [1700, 1134], "unv-burkina": [1700, 1111], "unv-kenya": [1700, 1111], "unv-civ": [1700, 1134], "unv-mali": [1700, 1111], "unv-vbg": [1700, 1111], "unv-rdc": [1700, 1162], "ideal-cert": [1700, 1210], "iyc14": [1700, 1187], "saket-ai": [1700, 1248], "icevb": [1700, 1194], "nrm-konclave": [1420, 995], "blood-odisha": [1207, 1700], "blood-redcross": [1171, 1700], "ementoring": [1700, 1203], "youth-plastic": [1700, 1203], "local-guides": [1280, 904], "kiss": [1700, 1210]};
 const KIND = {
   att:["Attestation","Attestation"], cert:["Certificat","Certificate"], part:["Participation","Participation"],
@@ -981,23 +982,14 @@ const DOCS = {
  "kiss":{k:"appr", t:["KIIT International Students' Society","KIIT International Students' Society"], by:"KIIT", d:["2025 – 2026","2025 – 2026"]}
 };
 
-/* Liens projet -> documents. own = attestations du projet ; skills = formations mobilisées ; missing = ce qu'il reste à fournir */
-const PROJECT_DOCS = {
- "odisha-catastrophes":{own:["cysd-internship","odisha-vikash-2025"], skills:["gnsu-fdp"]},
- "unmukt-me":{own:["unmukt-mts1"], skills:["meal-sera","kobo"]},
- "riz-odisha-export":{own:[], skills:["wtc-export"], missing:[["Attestation de stage MTS-2 (KSRM / KIIT)","MTS-2 internship certificate (KSRM / KIIT)"]]},
- "chantiertrack":{own:[], skills:["be10x","kobo"], missing:[["Captures ou lien de démonstration","Screenshots or demo link"]]},
- "milda-2022":{own:[], skills:["kobo"], missing:[["Attestation de superviseur, OCPH-Caritas / CRS","Field supervisor certificate, OCPH-Caritas / CRS"]]},
- "dalots-fangamadou":{own:[], skills:[], missing:[["Attestation de travail, ECOBA TP","Work certificate, ECOBA TP"],["PV de réception des ouvrages","Works acceptance report"]]},
- "wash-fangamadou":{own:[], skills:[], missing:[["Attestation ANAFIC / UNICEF pour le volet WASH","ANAFIC / UNICEF certificate for the WASH works"]]},
- "anafic-portefeuille":{own:[], skills:["unv-ucampus"], missing:[["Attestation de travail, ANAFIC (2019 – 2024)","Work certificate, ANAFIC (2019 – 2024)"]]},
- "pont-niger":{own:[], skills:[], missing:[["Attestations de stage, BTGR / DRTP Faranah et LNBTP","Internship certificates, BTGR / DRTP Faranah and LNBTP"]]}
-};
-
 const CERT_IDS = ["meal-sera","kobo","oif-dclic","wtc-export","gnsu-fdp","be10x","unv-ucampus","unv-linkedin","kiit-english","bc-teaching","bc-webinar","movers"];
 const MISSION_IDS = ["unv-y4c","unv-malawi","unv-ethiopia","unv-burkina","unv-kenya","unv-civ","unv-mali","unv-vbg","unv-rdc"];
 const CONF_IDS = ["iyc14","saket-ai","nrm-konclave","odisha-vikash-2025","icevb"];
 const ENG_IDS = ["ementoring","youth-plastic","blood-odisha","blood-redcross","local-guides","kiss"];
+const INTERN_IDS = ["cysd-internship","unmukt-mts1"];
+const PUBDOC_IDS = ["ideal-cert"];
+/* Page Certificats : tous les documents de docs/, par rubrique. */
+const CERT_PAGE = [["cert_t","cert_l",CERT_IDS,"g4"],["intern_t","intern_l",INTERN_IDS,"g3"],["un_t","un_l",MISSION_IDS,"g3"],["conf_t","conf_l",CONF_IDS,"g3"],["civic_t","civic_l",ENG_IDS,"g3"],["pubd_t","pubd_l",PUBDOC_IDS,"g3"]];
 const GALLERY = [{src:"img/photo-2026-07-28.webp", w:1066, h:1600, cap:["28 juillet 2026","28 July 2026"]}];
 </script>
 <script>/* ================= STATE ================= */
@@ -1160,7 +1152,7 @@ function buildSVG(){ return `
 
 /* ================= COMPONENTS ================= */
 const pcard = (p, i=0) => `<a class="card hov pcard" href="#projet-${p.id}" data-r style="--d:${i}">
-  <div class="pc-cover">${illu(p.id)}<span class="chip solid pc-cat">${L(CATS[p.cat])}</span>${p.year?`<span class="pc-year">${p.year}</span>`:""}${docCount(p)?`<span class="pc-docs">${I("award")}${docCount(p)} ${t(docCount(p)>1?"docs_n":"doc_n1")}</span>`:""}</div>
+  <div class="pc-cover">${illu(p.id)}<span class="chip solid pc-cat">${L(CATS[p.cat])}</span>${p.year?`<span class="pc-year">${p.year}</span>`:""}</div>
   <div class="pc-body"><h3>${esc(L(p.title))}</h3><p>${esc(L(p.short))}</p>
     <div class="pc-foot"><span class="pc-meta">${I("pin")}<span>${esc(L(p.place))}</span></span><span class="go">${I("arrow")}</span></div></div></a>`;
 const secHead = (h, lede, extra="") => `<div class="sec-head"><div><h2 data-r>${h}</h2>${lede?`<p class="lede" data-r style="--d:1">${lede}</p>`:""}</div>${extra}</div>`;
@@ -1179,7 +1171,6 @@ const docCard = (id, g, i=0) => { const x=DOCS[id]; return `<button type="button
   <span class="doc-b"><span class="chip acc">${L(KIND[x.k])}</span><b class="doc-t">${esc(L(x.t))}</b><span class="doc-by">${esc(x.by)}</span>
   <span class="doc-f"><span>${I("cal")}${esc(L(x.d))}</span><span class="go">${I("eye")}</span></span></span></button>`; };
 const docGrid = (ids, g, cls="g4") => `<div class="grid ${cls} docs">${ids.map((id,i)=>docCard(id,g,i)).join("")}</div>`;
-const docCount = p => (PROJECT_DOCS[p.id]?.own.length||0);
 
 /* ================= VIEWS ================= */
 const V = {};
@@ -1309,16 +1300,6 @@ ${phero(t("nav_proj"), t("proj_h"), t("proj_l"))}
   <div class="grid g3 pgrid" id="pgrid" aria-live="polite"></div>
 </div></section>`, after(){ initFilters(); } });
 
-function projDocs(p){
-  const pd=PROJECT_DOCS[p.id]||{own:[],skills:[]}, g="p-"+p.id;
-  const miss=(SHOW_MISSING?(pd.missing||[]):[]).map(m=>`<div class="doc-miss">${I("file")}<span><b>${t("docs_missing")}</b><span>${esc(L(m))}</span></span></div>`).join("");
-  if(!pd.own.length&&!pd.skills.length&&!miss) return "";
-  return `<section id="docs"><h2 data-r>${t("docs_t")}</h2>
-    ${pd.own.length?`<h3 class="dh" data-r>${t("docs_own")}</h3>${docGrid(pd.own,g,"g2")}`:""}
-    ${miss?`<div class="misses" data-r>${miss}</div>`:""}
-    ${pd.skills.length?`<h3 class="dh" data-r>${t("docs_skills")}</h3>${docGrid(pd.skills,g,"g2")}`:""}
-  </section>`;
-}
 V.projet = id => {
   const i=PROJECTS.findIndex(p=>p.id===id); if(i<0) return null;
   const p=PROJECTS[i], prev=PROJECTS[(i-1+PROJECTS.length)%PROJECTS.length], next=PROJECTS[(i+1)%PROJECTS.length];
@@ -1341,7 +1322,6 @@ V.projet = id => {
       <section data-r><h2>${t("d_context")}</h2><p>${esc(L(p.context))}</p></section>
       <section data-r><h2>${t("d_actions")}</h2><ul class="checks">${p.actions.map(a=>`<li><span class="ck">${I("check")}</span><span>${esc(L(a))}</span></li>`).join("")}</ul></section>
       <section data-r><h2>${t("d_result")}</h2><div class="result"><p>${esc(L(p.result))}</p></div></section>
-      ${projDocs(p)}
       <section data-r><h2>${t("d_photos")}</h2><div class="phs">${p.ph.map(x=>`<div class="ph">${I("camera")}<b>${t("d_photo")}</b><span>${esc(L(x))}</span></div>`).join("")}</div></section>
     </div>
     <aside class="side">
@@ -1364,6 +1344,10 @@ ${phero(t("nav_pubs"), t("pubs_h"), t("pubs_l"))}
   <div class="grid g3">${PUBS.slice(1).map((p,i)=>`<article class="card hov card-pad pub" data-r style="--d:${i}"><span class="chip ${i===0?"acc":""}" style="align-self:flex-start">${L(p.k)}</span><h3>${L(p.t)}</h3><p>${L(p.p)}</p>${i===0?`<div class="pub-act"><button type="button" class="btn btn-dark btn-s" data-doc="ideal-cert" data-group="pub">${I("award")}${t("view_cert")}</button><a class="btn btn-outline btn-s" href="docs/pdf/ideal-article-2026.pdf" target="_blank" rel="noopener">${I("file")}PDF</a></div>`:""}<div class="src">${I(i===0?"book":"star")}${L(p.w)}</div></article>`).join("")}</div>
 </div></section>
 <section class="sec alt"><div class="wrap">${secHead(t("conf_t"), t("conf_l"))}${docGrid(CONF_IDS,"conf","g3")}</div></section>`});
+
+V.certificats = () => ({ title:`${t("nav_cert")} — Faya Yolla LENO`, html:`
+${phero(t("nav_cert"), t("certp_h"), t("certp_l"))}
+${CERT_PAGE.map(([h,l,ids,cls],i)=>`<section class="sec${i%2?" alt":""}"><div class="wrap">${secHead(t(h), t(l))}${docGrid(ids,"cp-"+i,cls)}</div></section>`).join("")}`});
 
 V.contact = () => ({ nofooter:true, title:`${t("nav_contact")} — Faya Yolla LENO`, html:`
 ${phero(t("nav_contact"), t("ct_h"), t("ct_l"))}
@@ -1393,7 +1377,7 @@ ${phero(t("nav_contact"), t("ct_h"), t("ct_l"))}
 V["404"] = () => ({ title:`${t("nf_t")} — Faya Yolla LENO`, html:`<section class="nf"><canvas class="topo" data-seed="404" data-anim aria-hidden="true"></canvas><div><b aria-hidden="true">404</b><h1 style="font-size:1.6rem;margin-top:1.4rem">${t("nf_t")}</h1><p>${t("nf_p")}</p><a class="btn btn-primary" href="#accueil">${I("home")}${t("nf_b")}</a></div></section>`});
 
 /* ================= CHROME ================= */
-const NAV = [["accueil","nav_home"],["a-propos","nav_about"],["expertise","nav_exp"],["projets","nav_proj"],["publications","nav_pubs"],["contact","nav_contact"]];
+const NAV = [["accueil","nav_home"],["a-propos","nav_about"],["expertise","nav_exp"],["projets","nav_proj"],["publications","nav_pubs"],["certificats","nav_cert"],["contact","nav_contact"]];
 function renderChrome(){
   document.documentElement.lang = LANG;
   document.getElementById("skiplink").textContent = t("skip");
@@ -1409,7 +1393,7 @@ function renderChrome(){
     <div class="ftr-cta" id="ftrCta"><h2>${t("ftr_cta")}<span class="dot">.</span></h2><a class="btn btn-primary" href="#contact">${t("cta_contact")}${I("arrow")}</a></div>
     <div class="ftr-cols">
       <div><a class="brand" href="#accueil"><span class="logo">FYL</span>Faya Yolla Leno</a><p>${t("ftr_blurb")}</p></div>
-      <div><h4>${t("ftr_nav")}</h4><ul>${NAV.slice(0,5).map(([r,k])=>`<li><a href="#${r}">${t(k)}</a></li>`).join("")}</ul></div>
+      <div><h4>${t("ftr_nav")}</h4><ul>${NAV.slice(0,6).map(([r,k])=>`<li><a href="#${r}">${t(k)}</a></li>`).join("")}</ul></div>
       <div><h4>${t("ftr_ct")}</h4><ul><li><a href="mailto:${EMAIL}">${EMAIL}</a></li><li><a href="tel:+224622461527">+224 622 46 15 27</a></li><li><a href="tel:+918093727379">+91 80937 27379</a></li></ul></div>
       <div><h4>${t("ftr_more")}</h4><ul><li><a href="https://www.linkedin.com/in/faya-yolla-leno" rel="noopener">LinkedIn</a></li><li><a href="#publications">${t("nav_pubs")}</a></li></ul></div>
     </div>
