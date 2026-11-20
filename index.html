@@ -1213,7 +1213,7 @@ V.accueil = () => ({ title:`Faya Yolla LENO — ${t("role")}`, html:`
     <div class="card card-pad hov" data-r style="--d:2"><p class="bk">${I("cap")}${t("k_edu")}</p><ul class="edu-l">${EDU.slice(0,3).map(e=>`<li><b>${L(e.t)}</b><span>${L(e.o)}</span></li>`).join("")}</ul></div>
     <div class="card card-pad b-tools hov" data-r><p class="bk">${I("tool")}${t("k_tools")}</p><div class="tchips">${TOOLS.map(x=>`<span class="tchip"><i></i>${x}</span>`).join("")}</div></div>
     <div class="card card-pad b-stat hov" data-r style="--d:1"><p class="bk">${I("user")}${t("k_impact")}</p><div class="big"><span data-count="100">100</span><em>+</em></div><p>${t("b_kids")}</p></div>
-    <a class="card card-pad b-stat hov" href="#a-propos" style="text-decoration:none;--d:2" data-r><p class="bk">${I("award")}${t("cert_t")}</p><div class="big"><span data-count="12">12</span></div><p>${t("cert_l").split(". ")[0]}.</p></a>
+    <a class="card card-pad b-stat hov" href="#certificats" style="text-decoration:none;--d:2" data-r><p class="bk">${I("award")}${t("cert_t")}</p><div class="big"><span data-count="12">12</span></div><p>${t("cert_l").split(". ")[0]}.</p></a>
     <div class="card card-pad b-now hov" data-r style="--d:1"><p class="bk">${I("clock")}${t("k_now")}</p><span class="live"><span class="pulse"></span>${t("live")}</span><h3>${t("now_t")}</h3><p>${t("now_p")}</p></div>
   </div>
 </div></section>
@@ -1268,14 +1268,11 @@ ${phero(t("nav_about"), t("about_h"), t("about_l"))}
   </div>
 </div></section>
 
-<section class="sec"><div class="wrap">${secHead(t("cert_t"), t("cert_l"))}${docGrid(CERT_IDS,"certs")}</div></section>
-<section class="sec alt"><div class="wrap">${secHead(t("un_t"), t("un_l"))}${docGrid(MISSION_IDS,"unv","g3")}</div></section>
-<section class="sec"><div class="wrap">${secHead(t("civic_t"), t("civic_l"))}${docGrid(ENG_IDS,"civic","g3")}</div></section>
-<section class="sec alt"><div class="wrap">${secHead(t("gal_t"), t("gal_l"))}
+<section class="sec"><div class="wrap">${secHead(t("gal_t"), t("gal_l"))}
   <div class="gal">${GALLERY.map((g,i)=>`<figure class="card gal-i" data-r><button type="button" class="gal-b" data-gal="${i}" aria-label="${esc(L(g.cap))}"><img src="${g.src}" alt="Faya Yolla LENO, ${esc(L(g.cap))}" loading="lazy" width="${g.w}" height="${g.h}"></button><figcaption>${I("camera")}${esc(L(g.cap))}</figcaption></figure>`).join("")}
     <div class="card gal-more" data-r>${I("plus")}<p>${t("gal_more")}</p></div></div>
 </div></section>
-<section class="sec"><div class="wrap">${secHead(t("ref_t"), t("ref_l"))}
+<section class="sec alt"><div class="wrap">${secHead(t("ref_t"), t("ref_l"))}
   <div class="grid g3">${REFS.map((r,i)=>`<article class="card hov card-pad ref" data-r style="--d:${i%3}"><div class="who"><span class="avatar">${r.i}</span><div><h3>${r.n}</h3><div class="role">${L(r.role)}, ${L(r.org)}</div></div></div>
     <div class="for">${t("ref_for")}<a href="#projet-${r.p}">${esc(L(P(r.p).title))}</a></div>
     <button class="btn btn-outline btn-s" type="button" data-ref="${esc(r.n)}">${I("mail")}${t("ref_ask")}</button></article>`).join("")}</div>
@@ -1341,9 +1338,8 @@ ${phero(t("nav_pubs"), t("pubs_h"), t("pubs_l"))}
 <section class="sec"><div class="wrap">
   <article class="card hov pfeat" data-r><div class="card-pad"><span class="chip acc" style="align-self:flex-start">${I("book")}${L(PUBS[0].k)}</span><h2>${L(PUBS[0].t)}</h2><p>${L(PUBS[0].p)}</p><p style="color:var(--ink);font-weight:600">${L(PUBS[0].w)}</p></div>
     <div class="pfeat-vis" aria-hidden="true"><div><b>2026</b><span>ICMRCI, ${t("accepted")}</span></div></div></article>
-  <div class="grid g3">${PUBS.slice(1).map((p,i)=>`<article class="card hov card-pad pub" data-r style="--d:${i}"><span class="chip ${i===0?"acc":""}" style="align-self:flex-start">${L(p.k)}</span><h3>${L(p.t)}</h3><p>${L(p.p)}</p>${i===0?`<div class="pub-act"><button type="button" class="btn btn-dark btn-s" data-doc="ideal-cert" data-group="pub">${I("award")}${t("view_cert")}</button><a class="btn btn-outline btn-s" href="docs/pdf/ideal-article-2026.pdf" target="_blank" rel="noopener">${I("file")}PDF</a></div>`:""}<div class="src">${I(i===0?"book":"star")}${L(p.w)}</div></article>`).join("")}</div>
-</div></section>
-<section class="sec alt"><div class="wrap">${secHead(t("conf_t"), t("conf_l"))}${docGrid(CONF_IDS,"conf","g3")}</div></section>`});
+  <div class="grid g3">${PUBS.slice(1).map((p,i)=>`<article class="card hov card-pad pub" data-r style="--d:${i}"><span class="chip ${i===0?"acc":""}" style="align-self:flex-start">${L(p.k)}</span><h3>${L(p.t)}</h3><p>${L(p.p)}</p>${i===0?`<div class="pub-act"><a class="btn btn-outline btn-s" href="docs/pdf/ideal-article-2026.pdf" target="_blank" rel="noopener">${I("file")}PDF</a></div>`:""}<div class="src">${I(i===0?"book":"star")}${L(p.w)}</div></article>`).join("")}</div>
+</div></section>`});
 
 V.certificats = () => ({ title:`${t("nav_cert")} — Faya Yolla LENO`, html:`
 ${phero(t("nav_cert"), t("certp_h"), t("certp_l"))}
